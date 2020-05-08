@@ -10,7 +10,7 @@
 
     <fragment
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="180dp"
         android:id="@+id/header_layout"
         android:name="com.alex.attendance_control.HeaderFragment"
         tools:layout="@layout/header">
@@ -20,7 +20,6 @@
         android:id="@+id/sign_in_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
 
         <TextView
             android:id="@+id/labelDni"
@@ -58,16 +57,29 @@
             android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="59dp"
-            android:background="@drawable/custom_button"
             android:text="@string/sign_in"
             android:textColor="@color/white"
             android:textStyle="bold"
+            android:backgroundTint="@color/optima"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textDni"
             app:layout_constraintVertical_bias="0.07999998" />
 
+        <ProgressBar
+            android:id="@+id/loading_spinner"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminateTint="@color/optima"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textDni"
+            app:layout_constraintVertical_bias="0.269" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

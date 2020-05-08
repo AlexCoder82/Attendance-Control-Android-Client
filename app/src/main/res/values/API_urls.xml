@@ -2,4 +2,5 @@
 <resources>
 
     <string name="sign_in_url">http://192.168.0.102:5000/api/teachers/sign-in</string>
+    <string name="call_list_url">http://192.168.0.102:5000/api/call-list</string>
 </resources>

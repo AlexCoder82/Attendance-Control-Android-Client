@@ -3,6 +3,7 @@
     <string name="close_session"><u>Cerrar sesión</u></string>
     <string name="dni">Dni:</string>
     <string name="sign_in">Conectarse</string>
+    <string name="send">Enviar</string>
     <string name="show_classes">Ver clases</string>
     <string name="list">Pasar lista</string>
 
