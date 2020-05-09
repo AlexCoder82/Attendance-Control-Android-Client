@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 
+/*
+    Objeto que contiene los datos retornados por el servidor cuando una peticion
+    de conexión es exitosa
+ */
 public class TeacherSignInResponse implements Serializable {
 
     private int teacherId ;
@@ -14,10 +18,10 @@ public class TeacherSignInResponse implements Serializable {
 
     public TeacherSignInResponse(int teacherId, String firstName, String token, String role, ArrayList<SchoolClass> schoolClasses) {
         this.teacherId = teacherId;
-        firstName = firstName;
-        token = token;
-        role = role;
-        schoolClasses = schoolClasses;
+        this.firstName = firstName;
+        this.token = token;
+        this.role = role;
+        this.schoolClasses = schoolClasses;
     }
 
     public int getTeacherId() {

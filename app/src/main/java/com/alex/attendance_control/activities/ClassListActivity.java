@@ -1,4 +1,4 @@
-package com.alex.attendance_control;
+package com.alex.attendance_control.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -14,22 +14,26 @@ import android.view.ViewGroup;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.alex.attendance_control.R;
+import com.alex.attendance_control.activities.CallListActivity;
 import com.alex.attendance_control.models.SchoolClass;
+import com.alex.attendance_control.toasts.SchoolClassHasNotStartedYetToast;
 import com.alex.attendance_control.utils.SessionStorage;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
 
 /*
-    Actividad de la lista de clases del día
+    Actividad de la lista de clases del día del profesor
  */
-public class ClassListActivity extends AppCompatActivity implements View.OnClickListener {
+public class ClassListActivity extends AppCompatActivity
+        implements View.OnClickListener {
 
-    private ArrayList<SchoolClass> schoolClasses;
-    private ArrayList<SchoolClass> teacherSchoolClasses;
-    private TableLayout tableLayout;
-    private TextView labelMessage;
+    private ArrayList<SchoolClass> schoolClasses;//Lista de clases por curso
+    private ArrayList<SchoolClass> teacherSchoolClasses;//Lista de clases del profesor
+    private TableLayout tableLayout;//Tabla de clases
+    private TextView labelMessage;//Mensaje de bienvenida
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,37 +43,45 @@ public class ClassListActivity extends AppCompatActivity implements View.OnClick
 
         this.setTitle("Lista De Clases");
 
-        labelMessage = findViewById(R.id.labelMessage);
-
-        //Recupera la lista de clases
+        //Recupera la lista de clases pasada en el intent
         Intent intent = this.getIntent();
         Bundle bundle = intent.getExtras();
         this.schoolClasses = (ArrayList<SchoolClass>) bundle
                 .getSerializable("schoolClassList");
 
 
-        //Mensaje para el profesor
+        //Mensaje de bienvenida para el profesor
+        labelMessage = findViewById(R.id.labelMessage);
         String message = "Hola " + SessionStorage.firstName;
 
-
+        //Si hay al menos una clase, se rellena la tabla
         if (this.schoolClasses.size() > 0) {
+
             message += ", hoy impartes " + this.schoolClasses.size() + " clases.";
+
             this.getTeacherClasses();
             this.setTableLayout();
+
         } else {
+
             message += ", hoy no impartes ninguna clase.";
+
         }
+
         labelMessage.setText(message);
     }
 
+
     /*
-        Crea la lista de clases a mostrar juntando las clases
-        que tienen el mismo horario en una sola clase.
+        Crea y retorna la lista de clases a mostrar juntando las clases
+        por curso en clases del profesor.
      */
     private void getTeacherClasses() {
 
         this.teacherSchoolClasses = new ArrayList<SchoolClass>();
 
+        //Las clases por curso con el mismo horario se juntan en una sola clase
+        //de profesor
         for (SchoolClass sc : this.schoolClasses) {
 
             boolean found = false;
@@ -94,7 +106,7 @@ public class ClassListActivity extends AppCompatActivity implements View.OnClick
     //Crea y rellena la tabla
     private void setTableLayout() {
 
-        ConstraintLayout constraintLayout = findViewById(R.id.table_container_layout);
+        ConstraintLayout tableContainerLayout = findViewById(R.id.table_container_layout);
         tableLayout = new TableLayout(this);
         TableLayout.LayoutParams params = new TableLayout
                 .LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
@@ -109,18 +121,18 @@ public class ClassListActivity extends AppCompatActivity implements View.OnClick
             TableRow row = new TableRow(this);
             row.setGravity(Gravity.CENTER_VERTICAL);
 
-            //Primera columna sin width
+
+            //Columna asignatura
             TextView textViewSubject = new TextView(this);
-            //textViewSubject.setText(this.schoolClasses.get(i).getSubject().getName());
             textViewSubject.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
             textViewSubject.setTypeface(null, Typeface.BOLD);
             textViewSubject.setTextColor(Color.BLACK);
             textViewSubject.setText(this.teacherSchoolClasses.get(i).getSubject().getName());
             textViewSubject.setGravity(Gravity.LEFT|Gravity.CENTER);
-
             row.addView(textViewSubject, new TableRow.LayoutParams(500, 165, 1f));
 
-            //Segunda columna
+
+            //Columna horarios
             TextView textViewSchedules = new TextView(this);
             textViewSchedules.setText(this.teacherSchoolClasses.get(i).getSchedule().getStart() + " - "
                     + this.schoolClasses.get(i).getSchedule().getEnd());
@@ -131,7 +143,8 @@ public class ClassListActivity extends AppCompatActivity implements View.OnClick
             textViewSchedules.setGravity(Gravity.CENTER);
             row.addView(textViewSchedules, new TableRow.LayoutParams(180, 140, 1f));
 
-            //Tercera columna
+
+            //Columna enlaces "Pasar lista"
             TextView button = new TextView(this);
             button.setText(R.string.list);
             button.setTextColor(getResources().getColor(R.color.optima));
@@ -139,7 +152,13 @@ public class ClassListActivity extends AppCompatActivity implements View.OnClick
             button.setTypeface(null, Typeface.BOLD);
             button.setGravity(Gravity.CENTER);
             button.setPaintFlags(button.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-            button.setOnClickListener(this);
+            //Efecto ripple
+            TypedValue outValue = new TypedValue();
+            this.getTheme().resolveAttribute(android.R.attr.selectableItemBackground, outValue, true);
+            button.setForeground(getDrawable(outValue.resourceId));
+            button.setClickable(true);
+            button.setFocusable(true);
+            button.setOnClickListener(this);//Evento onclick
             row.addView(button, new TableRow.LayoutParams(270, 140, 1f));
 
             //Alterna los colores de fondo de las filas
@@ -149,13 +168,8 @@ public class ClassListActivity extends AppCompatActivity implements View.OnClick
             tableLayout.addView(row);
         }
 
-        ViewGroup parent = (ViewGroup) tableLayout.getParent();
-        if (parent != null) {
-            parent.removeView(tableLayout);
-        }
-
-        //Agrega la tabla a la vista
-        constraintLayout.addView(tableLayout);
+        //Agrega la tabla al layout
+        tableContainerLayout.addView(tableLayout);
 
     }
 
@@ -188,22 +202,14 @@ public class ClassListActivity extends AppCompatActivity implements View.OnClick
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("schoolClassIds", schoolClassIds);
                 bundle.putString("subjectName", subjectView.getText().toString());
-                bundle.putString("startAt", schedulesView.getText().toString());
+                bundle.putString("startAt", startAt);
                 intent.putExtras(bundle);
                 startActivity(intent);
 
             } //Si no ha empezado la clase, se muestra un mensaje
             else {
-                Toast toast = Toast.makeText(this,
-                        "Esta clase aún no ha empezado.", Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.BOTTOM, 0, 50);
-                View view = toast.getView();
-                TextView text =  view.findViewById(android.R.id.message);
-                text.setTextColor(Color.BLACK);
-                text.setTypeface(null, Typeface.BOLD);
-                text.setShadowLayer(0,0,0,0);
-                toast.show();
 
+                SchoolClassHasNotStartedYetToast.show(this);
             }
         }
 

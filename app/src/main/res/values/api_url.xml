@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="host">192.168.0.102</string>
+    <string name="scheme">http</string>
+    <string name="port">5000</string>
+    <string name="api">api</string>
+    <string name="teachers">teachers</string>
+    <string name="call_list">call-list</string>
+    <string name="sign_in">sign-in</string>
+</resources>

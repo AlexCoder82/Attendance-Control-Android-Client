@@ -12,13 +12,13 @@
         android:layout_height="match_parent"
         android:background="@color/white"
         android:orientation="vertical"
-        tools:context=".CallListActivity">
+        tools:context=".activities.CallListActivity">
 
 
 
         <fragment
             android:id="@+id/header_layout"
-            android:name="com.alex.attendance_control.HeaderFragment"
+            android:name="com.alex.attendance_control.fragments.HeaderFragment"
             android:layout_width="match_parent"
             android:layout_height="180dp"
             tools:layout="@layout/header"></fragment>
@@ -51,7 +51,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp">
+            android:layout_marginRight="10dp"
+            android:background="@color/white">
 
             <ProgressBar
                 android:id="@+id/loading_spinner"
@@ -71,7 +72,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="106dp">
+            android:layout_height="106dp"
+            android:background="@color/white">
 
             <Button
                 android:id="@+id/buttonSend"

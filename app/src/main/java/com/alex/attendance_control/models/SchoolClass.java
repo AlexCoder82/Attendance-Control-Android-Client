@@ -2,6 +2,9 @@ package com.alex.attendance_control.models;
 
 import java.io.Serializable;
 
+/*
+    Objeto clase
+ */
 public class SchoolClass implements Serializable {
 
     private int id;

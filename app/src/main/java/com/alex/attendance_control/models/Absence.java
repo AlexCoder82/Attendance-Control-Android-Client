@@ -1,9 +1,5 @@
 package com.alex.attendance_control.models;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
-
 public class Absence {
 
     private int id;

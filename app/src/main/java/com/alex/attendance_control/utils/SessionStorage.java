@@ -1,5 +1,8 @@
 package com.alex.attendance_control.utils;
 
+/*
+    Objeto que contiene los datos de sesion de usuario
+ */
 public class SessionStorage {
 
     public static String token = "";
@@ -7,7 +10,8 @@ public class SessionStorage {
     public static String firstName ;
     public static String role ;
 
-    public static void delete(){
+    //Cierra la sesion
+    public static void closeSession(){
 
         token = "";
         teacherId = 0;
@@ -15,4 +19,5 @@ public class SessionStorage {
         role = "";
 
     }
+
 }

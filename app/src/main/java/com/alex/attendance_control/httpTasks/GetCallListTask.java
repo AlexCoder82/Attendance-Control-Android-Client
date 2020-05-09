@@ -1,16 +1,12 @@
 package com.alex.attendance_control.httpTasks;
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
-import android.view.View;
 
-import com.alex.attendance_control.CallListActivity;
-import com.alex.attendance_control.callbacks.AsyncResponse;
+import com.alex.attendance_control.activities.CallListActivity;
+import com.alex.attendance_control.R;
+import com.alex.attendance_control.callbacks.CallListAsyncCallback;
 import com.alex.attendance_control.models.ApiResponse;
 import com.alex.attendance_control.models.SchoolClassStudent;
-import com.alex.attendance_control.toasts.ApiErrorMessageToast;
 import com.alex.attendance_control.utils.SessionStorage;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -31,32 +27,35 @@ import okhttp3.Response;
 public class GetCallListTask extends AsyncTask<int[], Void, ApiResponse> {
 
     private CallListActivity callListActivity;
-    public AsyncResponse delegate=null;
-    public GetCallListTask(CallListActivity activity,AsyncResponse delegate) {
+    public CallListAsyncCallback delegate;
+
+    public GetCallListTask(CallListActivity activity, CallListAsyncCallback delegate) {
 
         this.callListActivity = activity;
         this.delegate = delegate;
 
     }
 
-    @Override
-    protected void onPreExecute() {
-
-
-    }
 
     @Override
     protected ApiResponse doInBackground(int[]... params) {
 
+        //http://192.168.0.102:5000/api/call-list/
+        String host = this.callListActivity.getResources().getString(R.string.host);
+        int port = Integer
+                .parseInt(this.callListActivity.getResources().getString(R.string.port));
+        String scheme = this.callListActivity.getResources().getString(R.string.scheme);
+        String api = this.callListActivity.getResources().getString(R.string.api);
+        String callList = this.callListActivity.getResources().getString(R.string.call_list);
+
+        HttpUrl.Builder builder = new HttpUrl.Builder()
+                .scheme(scheme)
+                .host(host)
+                .port(port)
+                .addPathSegment(api)
+                .addPathSegment(callList);
+
         int[] schoolClassIds = params[0];
-
-        //http://192.168.0.102:5000/api/call-list
-        HttpUrl.Builder builder = new HttpUrl.Builder().scheme("http")
-                .host("192.168.0.102")
-                .port(5000)
-                .addPathSegment("api")
-                .addPathSegment("call-list");
-
         //Agrega el array de ids a los parametros de url
         for (int id : schoolClassIds) {
             builder.addQueryParameter("schoolClassIds", id + "");
@@ -64,7 +63,7 @@ public class GetCallListTask extends AsyncTask<int[], Void, ApiResponse> {
 
         HttpUrl httpUrl = builder.build();
 
-        //Autorización
+        //Autorización jwt
         String role = SessionStorage.role;
         String token = SessionStorage.token;
 
@@ -91,14 +90,11 @@ public class GetCallListTask extends AsyncTask<int[], Void, ApiResponse> {
 
         } catch (IOException e) {
 
-            //En caso de erro,se muestra un toast con un mensaje de error
             this.callListActivity.runOnUiThread(() -> {
-
-                ApiErrorMessageToast.Show(callListActivity);
-
-
-
+                delegate.OnServerError();
             });
+
+
         }
 
         return apiResponse;
@@ -109,10 +105,8 @@ public class GetCallListTask extends AsyncTask<int[], Void, ApiResponse> {
     @Override
     protected void onPostExecute(ApiResponse apiResponse) {
 
-
-
-        if (apiResponse != null) {
-
+        if (apiResponse != null)
+        {
             //Si el servidor retorna un 200
             if (apiResponse.getStatusCode() == 200) {
 
@@ -123,18 +117,20 @@ public class GetCallListTask extends AsyncTask<int[], Void, ApiResponse> {
                 List<SchoolClassStudent> callList = new Gson()
                         .fromJson(apiResponse.getData(), listType);
 
-                Log.d("PRUEBA", callList.get(0).getSchoolClassId()+"");
                 this.delegate.onGetCallListTaskCompleted(callList);
 
-            } //Cualquier otro codigo de error no esperado
-            else {
+            } else if (apiResponse.getStatusCode() == 401) {
 
-                //Muestra un mensaje de error
-                ApiErrorMessageToast.Show(callListActivity);
+                this.delegate.OnSessionExpiredError();
 
             }
+            //Cualquier otro codigo de error no esperado
+            else {
 
+                delegate.OnServerError();
+            }
         }
+
     }
 
 }

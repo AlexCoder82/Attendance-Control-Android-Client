@@ -13,9 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".CallListActivity"></activity>
-        <activity android:name=".ClassListActivity" />
-        <activity android:name=".SignInActivity">
+        <activity android:name=".activities.CallListActivity"></activity>
+        <activity android:name=".activities.ClassListActivity" />
+        <activity android:name=".activities.SignInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

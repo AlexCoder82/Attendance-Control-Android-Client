@@ -6,20 +6,21 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    tools:context=".SignInActivity">
+    tools:context=".activities.SignInActivity">
 
     <fragment
         android:layout_width="match_parent"
         android:layout_height="180dp"
         android:id="@+id/header_layout"
-        android:name="com.alex.attendance_control.HeaderFragment"
+        android:name="com.alex.attendance_control.fragments.HeaderFragment"
         tools:layout="@layout/header">
     </fragment>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/sign_in_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
         <TextView
             android:id="@+id/labelDni"
@@ -57,7 +58,7 @@
             android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="59dp"
-            android:text="@string/sign_in"
+            android:text="@string/connect"
             android:textColor="@color/white"
             android:textStyle="bold"
             android:backgroundTint="@color/optima"

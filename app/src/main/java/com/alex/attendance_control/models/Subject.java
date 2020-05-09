@@ -2,6 +2,9 @@ package com.alex.attendance_control.models;
 
 import java.io.Serializable;
 
+/*
+    Objeto Asignatura
+ */
 public class Subject implements Serializable {
 
     private int id;

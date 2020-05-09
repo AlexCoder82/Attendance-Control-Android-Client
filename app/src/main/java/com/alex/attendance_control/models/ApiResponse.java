@@ -1,5 +1,8 @@
 package com.alex.attendance_control.models;
 
+/*
+    Objecto que contiene el codigo de estado y el json retornado por el servidor
+ */
 public class ApiResponse {
 
     private String data;

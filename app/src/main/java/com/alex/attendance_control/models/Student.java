@@ -1,5 +1,8 @@
 package com.alex.attendance_control.models;
 
+/*
+    Objeto Alumno
+ */
 public class Student {
 
     private int id;

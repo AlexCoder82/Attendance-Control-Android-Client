@@ -9,22 +9,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /*
-    Toast mostrado cuando el servidor devuelve un error no previsto (500 o 0)
+    Toast mostrado cuando se pide el listado de alumnos de una clase que aun no ha empezado
  */
-public class ApiErrorMessageToast {
+public class SchoolClassHasNotStartedYetToast {
 
-    private static String message = "Ocurrió un error: el servidor no responde.";
+    public static void show(Context context){
 
-    public static void Show(Context context){
-
-        Toast toast= Toast.makeText(context,
-                message, Toast.LENGTH_LONG);
-        toast.setGravity(Gravity.BOTTOM, 0, 150);
+        Toast toast = Toast.makeText(context,
+                "Esta clase aún no ha empezado.", Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.BOTTOM, 0, 50);
         View view = toast.getView();
         TextView text =  view.findViewById(android.R.id.message);
-        text.setTextColor(Color.RED);
+        text.setTextColor(Color.BLACK);
         text.setTypeface(null, Typeface.BOLD);
-        text.setTextSize(16);
         text.setShadowLayer(0,0,0,0);
         toast.show();
 

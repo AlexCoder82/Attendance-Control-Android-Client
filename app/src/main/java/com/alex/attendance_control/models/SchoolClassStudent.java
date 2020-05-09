@@ -1,5 +1,8 @@
 package com.alex.attendance_control.models;
 
+/*
+    Objeto que asocia una clase, un alumno y su ausencia
+ */
 public class SchoolClassStudent {
 
     private Student student;

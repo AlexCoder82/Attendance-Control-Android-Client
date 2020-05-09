@@ -8,25 +8,22 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alex.attendance_control.R;
-
 /*
-    Toast mostrado cuando se ha enviado la lista de alumnos
+    Toast mostrado cuando la sesion de usuario ha expirado
  */
-public class SendSuccesToast {
+public class SessionHasExpiredToast {
 
-    private static final String MESSAGE = "La lista de ausencias ha sido enviada.";
+    private static final String MESSAGE = "La sesión de usuario ha expirado.";
 
-    public static void Show(Context context) {
+    public static void show(Context context) {
 
         Toast toast = Toast.makeText(context,
                 MESSAGE, Toast.LENGTH_LONG);
-        toast.setGravity(Gravity.BOTTOM, 0, 50);
+        toast.setGravity(Gravity.BOTTOM, 0, 150);
         View view = toast.getView();
         TextView text = view.findViewById(android.R.id.message);
-        text.setTextColor(context.getResources().getColor(R.color.optima));
+        text.setTextColor(Color.RED);
         text.setTypeface(null, Typeface.BOLD);
-        text.setTextSize(20);
         text.setShadowLayer(0, 0, 0, 0);
         toast.show();
 

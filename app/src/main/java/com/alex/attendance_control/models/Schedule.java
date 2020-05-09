@@ -2,6 +2,9 @@ package com.alex.attendance_control.models;
 
 import java.io.Serializable;
 
+/*
+    Objeto horario
+ */
 public class Schedule implements Serializable {
 
     private int id;

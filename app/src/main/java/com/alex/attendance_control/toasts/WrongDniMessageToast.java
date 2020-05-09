@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/*
+    Toast mostrado cuando el usuario introduce un dno erroneo
+ */
 public class WrongDniMessageToast {
 
     public static void Show(Context context, String message){
@@ -20,6 +23,7 @@ public class WrongDniMessageToast {
         TextView text =  view.findViewById(android.R.id.message);
         text.setTextColor(Color.RED);
         text.setTypeface(null, Typeface.BOLD);
+        text.setTextSize(16);
         text.setShadowLayer(0,0,0,0);
 
         toast.show();
