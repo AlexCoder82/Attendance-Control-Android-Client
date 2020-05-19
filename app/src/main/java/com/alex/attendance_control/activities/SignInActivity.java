@@ -69,7 +69,6 @@ public class SignInActivity extends AppCompatActivity implements SignInAsyncCall
         //Guardo los datos de la sesion en el objeto SessionStorage
         SessionStorage.token = data.getToken();
         SessionStorage.teacherId = data.getTeacherId();
-        SessionStorage.role = data.getRole();
         SessionStorage.firstName = data.getFirstName();
 
         //Abre la actividad de la lista de clases pasandole la lista como

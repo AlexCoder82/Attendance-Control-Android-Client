@@ -1,16 +1,14 @@
 package com.alex.attendance_control.httpTasks;
 
+import android.annotation.SuppressLint;
 import android.os.AsyncTask;
-
 import com.alex.attendance_control.R;
 import com.alex.attendance_control.activities.SignInActivity;
 import com.alex.attendance_control.callbacks.SignInAsyncCallback;
 import com.alex.attendance_control.models.ApiResponse;
 import com.alex.attendance_control.models.TeacherSignInResponse;
 import com.google.gson.Gson;
-
 import java.io.IOException;
-
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -22,11 +20,11 @@ import okhttp3.Response;
  */
 public class SignInTask extends AsyncTask<String, Void, ApiResponse> {
 
+    @SuppressLint("StaticFieldLeak")
     private SignInActivity signInActivity;//Actividad que lanza el hilo
     private SignInAsyncCallback delegate;//Callback
 
     public SignInTask(SignInActivity activity, SignInAsyncCallback delegate) {
-
         this.signInActivity = activity;
         this.delegate = delegate;
     }
@@ -34,11 +32,8 @@ public class SignInTask extends AsyncTask<String, Void, ApiResponse> {
     @Override
     protected ApiResponse doInBackground(String... strings) {
 
-
-        //http://192.168.0.102:5000/api/teachers/sign-in/{dni}
         String host = this.signInActivity.getResources().getString(R.string.host);
-        int port = Integer
-                .parseInt(this.signInActivity.getResources().getString(R.string.port));
+        int port = Integer.parseInt(this.signInActivity.getResources().getString(R.string.port));
         String scheme = this.signInActivity.getResources().getString(R.string.scheme);
         String api = this.signInActivity.getResources().getString(R.string.api);
         String teachers = this.signInActivity.getResources().getString(R.string.teachers);
@@ -53,7 +48,7 @@ public class SignInTask extends AsyncTask<String, Void, ApiResponse> {
                 .addPathSegment(teachers)
                 .addPathSegment(signIn)
                 .addPathSegment(dni) //Se pasa el dni en la url
-                .build();
+                .build();//http://ip:5000/api/teachers/sign-in/{dni}
 
 
         //Body vacío
@@ -69,7 +64,6 @@ public class SignInTask extends AsyncTask<String, Void, ApiResponse> {
         ApiResponse apiResponse = null;
 
         try {
-
             OkHttpClient client = new OkHttpClient();
             Response response = client.newCall(request).execute();
 
@@ -77,8 +71,6 @@ public class SignInTask extends AsyncTask<String, Void, ApiResponse> {
             int statusCode = response.code();
             String message = response.body().string();
             apiResponse = new ApiResponse(message, statusCode);
-
-
         } catch (IOException e) {
 
             this.signInActivity.runOnUiThread(()->{

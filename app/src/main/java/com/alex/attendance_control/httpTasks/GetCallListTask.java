@@ -64,7 +64,6 @@ public class GetCallListTask extends AsyncTask<int[], Void, ApiResponse> {
         HttpUrl httpUrl = builder.build();
 
         //Autorización jwt
-        String role = SessionStorage.role;
         String token = SessionStorage.token;
 
         //Peticion HTTP GET
@@ -72,7 +71,6 @@ public class GetCallListTask extends AsyncTask<int[], Void, ApiResponse> {
                 .url(httpUrl)
                 .get()
                 .addHeader("Authorization", "Bearer " + token)
-                .addHeader("Role", role)
                 .build();
 
         ApiResponse apiResponse = null;
