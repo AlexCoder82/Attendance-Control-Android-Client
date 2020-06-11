@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="host">192.168.0.102</string>
+    <string name="host">192.168.0.101</string>
     <string name="scheme">http</string>
     <string name="port">5000</string>
     <string name="api">api</string>
